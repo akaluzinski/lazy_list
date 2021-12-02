@@ -3,4 +3,6 @@
 
 <div>Hello {{ status }}</div>
 
-<app-server [name]="server" *ngFor="let server of servers"></app-server>
+<ng-container *ngFor="let server of servers; let i = index">
+  ({{ i }}) <app-server [name]="server"></app-server>
+</ng-container>
