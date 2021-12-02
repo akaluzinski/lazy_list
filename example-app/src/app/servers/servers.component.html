@@ -3,7 +3,4 @@
 
 <div>Hello {{ status }}</div>
 
-<app-server></app-server>
-<app-server></app-server>
-<app-server></app-server>
-<app-server></app-server>
+<app-server [name]="server" *ngFor="let server of servers"></app-server>

@@ -1,5 +1,6 @@
 import { ThrowStmt } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-servers',
@@ -8,12 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ServersComponent {
   status = 'No servers.';
+  servers = ['ServerA', 'DC2'];
 
   onCreateServer(): void {
     this.status = 'Loading';
+    this.servers.push(this.getUUID());
   }
 
   onUpdateServer(event: any): void {
     this.status = event.target.value;
+  }
+
+  getUUID(): string {
+    return uuidv4();
   }
 }
