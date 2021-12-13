@@ -5,6 +5,7 @@
         <div class="col-sm-5 form-group">
           <label for="name">Name</label>
           <input
+            #nameInput
             type="text"
             placeholder="Name"
             id="name"
@@ -14,6 +15,7 @@
         <div class="col-sm-2 form-group">
           <label for="amount">Amount</label>
           <input
+            #amountInput
             type="number"
             id="amount"
             placeholder="Amount"
@@ -23,7 +25,9 @@
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-success" type="submit">Add</button>
+          <button class="btn btn-success" type="submit" (click)="add()">
+            Add
+          </button>
           <button class="btn btn-danger" type="button">Delete</button>
           <button class="btn btn-primary" type="button">Clear</button>
         </div>
