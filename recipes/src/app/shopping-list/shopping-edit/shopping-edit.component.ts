@@ -30,6 +30,8 @@ export class ShoppingEditComponent implements OnInit {
     const name = this.nameInput.nativeElement.value;
     const amount = Number(this.amountInput.nativeElement.value);
 
-    this.ingredientAdded.emit(new Ingredient(name, amount));
+    if (amount >= 0) {
+      this.ingredientAdded.emit(new Ingredient(name, amount));
+    }
   }
 }
