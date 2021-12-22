@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Ingredient } from 'src/app/shopping-list/ingredient.model';
+import { ShoppingListService } from 'src/app/shopping-list/shopping-list.service';
 import { Recipe } from '../recipe-list/recipe.model';
 
 @Component({
@@ -14,7 +15,11 @@ export class RecipeDetailComponent implements OnInit {
   @Output()
   recipeChange = new EventEmitter<Recipe>();
 
-  constructor() {}
+  constructor(private shoppingListService: ShoppingListService) {}
 
   ngOnInit(): void {}
+
+  toShoppingList(): void {
+    this.shoppingListService.addIngredients(this.recipe.ingredients);
+  }
 }

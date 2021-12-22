@@ -14,6 +14,12 @@ export class ShoppingListService {
     return [...this.ingredients];
   }
 
+  addIngredients(ingredients: Ingredient[]): void {
+    ingredients.forEach((ingredient: Ingredient) => {
+      this.addIngredient(ingredient);
+    });
+  }
+
   addIngredient({ name, amount }: Ingredient): void {
     const existingIngredient = this.ingredients.find((ingredient) =>
       ingredient.name.toLowerCase().trim().includes(name.toLowerCase().trim())
