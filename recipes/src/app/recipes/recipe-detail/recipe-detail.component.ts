@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Ingredient } from 'src/app/shopping-list/ingredient.model';
 import { Recipe } from '../recipe-list/recipe.model';
 
 @Component({
