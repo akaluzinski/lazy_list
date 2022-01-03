@@ -1,3 +1,7 @@
 .details-image {
   max-height: 200px;
 }
+
+.dropdown-element {
+  cursor: pointer;
+}
