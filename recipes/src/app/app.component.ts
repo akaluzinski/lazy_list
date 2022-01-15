@@ -14,10 +14,4 @@ export class AppComponent {
   title = 'recipes';
 
   menuItem = MenuItem;
-
-  selectedMenuItem = MenuItem.Recipes;
-
-  onSelectedMenu(menuItem: MenuItem): void {
-    this.selectedMenuItem = menuItem;
-  }
 }
