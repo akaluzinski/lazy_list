@@ -1,13 +1,6 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, } from '@angular/core';
 import { Ingredient } from '../ingredient.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -15,21 +8,13 @@ import { Ingredient } from '../ingredient.model';
   styleUrls: ['./shopping-edit.component.css'],
 })
 export class ShoppingEditComponent implements OnInit {
-  @ViewChild('nameInput')
-  private readonly nameInput: ElementRef;
-
-  @ViewChild('amountInput')
-  private readonly amountInput: ElementRef;
-
   @Output()
   private readonly ingredientAdded = new EventEmitter<Ingredient>();
 
   ngOnInit(): void {}
 
-  add(): void {
-    const name = this.nameInput.nativeElement.value;
-    const amount = Number(this.amountInput.nativeElement.value);
-
+  add({value}: NgForm): void {
+    const { amount, name } = value;
     if (amount >= 0) {
       this.ingredientAdded.emit(new Ingredient(name, amount));
     }
