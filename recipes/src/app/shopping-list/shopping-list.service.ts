@@ -6,6 +6,7 @@ import { Ingredient } from './ingredient.model';
 @Injectable()
 export class ShoppingListService {
   ingredientsChanged = new Subject<Ingredient[]>();
+  startedEditing = new Subject<number>();
 
   private ingredients = [
     new Ingredient('Beans', 4),
@@ -22,12 +23,16 @@ export class ShoppingListService {
     });
   }
 
+  getIngredient(index: number): Ingredient {
+    return this.ingredients[index];
+  }
+
   addIngredient({ name, amount }: Ingredient): void {
     const existingIngredient = this.ingredients.find((ingredient) =>
       ingredient.name.toLowerCase().trim().includes(name.toLowerCase().trim())
     );
 
-    if (existingIngredient != undefined) {
+    if (existingIngredient !== undefined) {
       existingIngredient.amount += amount;
     } else {
       this.ingredients.push(new Ingredient(name, amount));

@@ -4,11 +4,12 @@
     <hr />
     <ul>
       <a
-        *ngFor="let ingredient of ingredients"
+        *ngFor="let ingredient of ingredients; let i = index"
         style="cursor: pointer"
         class="list-group-item"
-        >{{ ingredient.name }} {{ ingredient.amount }}</a
-      >
+        (click)="onEditItem(i)">
+        {{ ingredient.name }} {{ ingredient.amount }}
+      </a>
     </ul>
   </div>
 </div>
