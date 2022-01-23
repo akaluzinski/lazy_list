@@ -28,15 +28,12 @@ export class ShoppingListService {
   }
 
   addIngredient({ name, amount }: Ingredient): void {
-    const existingIngredient = this.ingredients.find((ingredient) =>
-      ingredient.name.toLowerCase().trim().includes(name.toLowerCase().trim())
-    );
+    this.ingredients.push(new Ingredient(name, amount));
+    this.ingredientsChanged.next(this.getIngredients());
+  }
 
-    if (existingIngredient !== undefined) {
-      existingIngredient.amount += amount;
-    } else {
-      this.ingredients.push(new Ingredient(name, amount));
-    }
+  updateIngredient(index: number, ingredient: Ingredient): void {
+    this.ingredients[index] = ingredient;
     this.ingredientsChanged.next(this.getIngredients());
   }
 }
