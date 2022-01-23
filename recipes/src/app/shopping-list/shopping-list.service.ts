@@ -29,11 +29,20 @@ export class ShoppingListService {
 
   addIngredient({ name, amount }: Ingredient): void {
     this.ingredients.push(new Ingredient(name, amount));
-    this.ingredientsChanged.next(this.getIngredients());
+    this.refreshList();
   }
 
   updateIngredient(index: number, ingredient: Ingredient): void {
     this.ingredients[index] = ingredient;
+    this.refreshList();
+  }
+
+  deleteIngredient(index: number): void {
+    this.ingredients.splice(index, 1);
+    this.refreshList();
+  }
+
+  private refreshList(): void {
     this.ingredientsChanged.next(this.getIngredients());
   }
 }
