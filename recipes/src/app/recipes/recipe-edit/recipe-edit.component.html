@@ -18,14 +18,14 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="imgUrl">Iamge URL</label>
-            <input type="text" id="imgUrl" class="form-control" formControlName="imgUrl">
+            <label for="imgUrl">Image URL</label>
+            <input type="text" id="imgUrl" class="form-control" formControlName="imgUrl" #imgUrl>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12">
-          <img class="img-responsive">
+        <div class="col-xs-6">
+          <img class="img-responsive" [src]="imgUrl.value">
         </div>
       </div>
       <div class="row">
