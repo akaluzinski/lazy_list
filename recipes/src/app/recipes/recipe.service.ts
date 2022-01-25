@@ -37,11 +37,20 @@ export class RecipeService {
 
   addRecipe(recipe: Recipe): void {
     this.recipes.push(recipe);
-    this.recipesChanged.next(this.recipes.slice());
+    this.notifyRecipesChanged();
   }
 
   updateRecipe(index: number, recipe: Recipe): void {
     this.recipes[index] = recipe;
+    this.notifyRecipesChanged();
+  }
+
+  deleteRecipe(id: number): void {
+    this.recipes.splice(id, 1);
+    this.notifyRecipesChanged();
+  }
+
+  private notifyRecipesChanged(): void {
     this.recipesChanged.next(this.recipes.slice());
   }
 }
