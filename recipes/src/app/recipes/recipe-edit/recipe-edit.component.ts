@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
 
 @Component({
@@ -9,6 +9,9 @@ import { RecipeService } from '../recipe.service';
   styleUrls: ['./recipe-edit.component.css'],
 })
 export class RecipeEditComponent implements OnInit {
+
+  private readonly amountPattern = /^[1-9]+[0-9]*$/;
+
   id: number;
   editMode = false;
   recipeForm: FormGroup;
@@ -39,16 +42,17 @@ export class RecipeEditComponent implements OnInit {
         ingredients.forEach(ingredient => {
           recipeIngredients.push(
             new FormGroup({
-              name: new FormControl(ingredient.name),
-              amount: new FormControl(ingredient.amount)
+              name: new FormControl(ingredient.name, Validators.required),
+              amount: new FormControl(ingredient.amount,
+                [Validators.required, Validators.pattern(this.amountPattern)])
             }));
         });
       }
     }
 
     this.recipeForm = new FormGroup({
-      name: new FormControl(recipeName),
-      imgUrl: new FormControl(recipeImgPath),
+      name: new FormControl(recipeName, Validators.required),
+      imgUrl: new FormControl(recipeImgPath, Validators.required),
       description: new FormControl(recipeDescription),
       ingredients: recipeIngredients
     });
@@ -58,6 +62,12 @@ export class RecipeEditComponent implements OnInit {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
   }
 
+  addIngredient(): void {
+    (this.recipeForm.get('ingredients') as FormArray).push(new FormGroup({
+      name: new FormControl(null, Validators.required),
+      amount: new FormControl(null, [Validators.required, Validators.pattern(this.amountPattern)])
+    }));
+  }
 
   onSubmit(): void {
     console.log(this.recipeForm);
