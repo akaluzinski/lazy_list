@@ -4,6 +4,7 @@ import { RecipeService } from '../recipes/recipe.service';
 import { Observable } from 'rxjs';
 import { appUrl } from '../config';
 import { Recipe } from '../recipes/recipe-list/recipe.model';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +24,14 @@ export class StorageService {
   // TODO integrate with listonic
   // TODO autosave, autoload
 
-  loadRecipes(): void {
-    this.fetchRecipes().subscribe((response: Recipe[]) => this.recipeService.setRecipes(response));
+  loadRecipes(): Observable<Recipe[]> {
+    return this.fetchRecipes().pipe(tap(recipes => this.recipeService.setRecipes(recipes)));
   }
 
   fetchRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(this.path);
+    return this.http.get<Recipe[]>(this.path)
+      .pipe(map(recipes => recipes.map(recipe => ({...recipe, ingredients: recipe.ingredients ?? []
+      }))
+    ));
   }
 }

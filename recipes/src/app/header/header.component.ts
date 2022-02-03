@@ -16,6 +16,6 @@ export class HeaderComponent {
   }
 
   loadData(): void {
-    this.storageService.loadRecipes();
+    this.storageService.loadRecipes().subscribe();
   }
 }
