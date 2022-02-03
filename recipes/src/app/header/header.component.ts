@@ -12,6 +12,10 @@ export class HeaderComponent {
   }
 
   saveData(): void {
-    this.storageService.storeRecipes().subscribe(response => console.log(response));
+    this.storageService.storeRecipes().subscribe(response => console.log('Save recipes'));
+  }
+
+  loadData(): void {
+    this.storageService.loadRecipes();
   }
 }

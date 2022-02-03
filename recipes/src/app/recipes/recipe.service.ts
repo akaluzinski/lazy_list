@@ -35,6 +35,11 @@ export class RecipeService {
     return [...this.recipes];
   }
 
+  setRecipes(recipes: Recipe[]): void{
+    this.recipes = recipes;
+    this.notifyRecipesChanged();
+  }
+
   addRecipe(recipe: Recipe): void {
     this.recipes.push(recipe);
     this.notifyRecipesChanged();
