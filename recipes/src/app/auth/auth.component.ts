@@ -1,15 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
 
-  constructor() { }
+  isLogin = true;
 
-  ngOnInit(): void {
+  constructor(private readonly authService: AuthService) {
   }
 
+  toggleMode(): void {
+    this.isLogin = !this.isLogin;
+  }
+
+  onSubmit(form: NgForm): void {
+    if (!form.valid) {
+      return;
+    }
+    if (this.isLogin) {
+      // todo
+    } else {
+      this.onSignUp(form);
+    }
+    form.reset();
+  }
+
+  private onSignUp(form: NgForm): void {
+    const { email, password } = form.value;
+    this.authService.signUp(email, password).subscribe(user => {
+      console.log(user);
+    }, error => {
+      console.error(error);
+    });
+  }
 }
