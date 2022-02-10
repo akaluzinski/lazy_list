@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from './auth.service';
+import { ErrorMessageEnum } from "./error-message.enum";
 
 @Component({
   selector: 'app-auth',
@@ -11,6 +12,7 @@ export class AuthComponent {
 
   isLogin = true;
   isLoading = false;
+  errorMessage = '';
 
   constructor(private readonly authService: AuthService) {
   }
@@ -38,9 +40,22 @@ export class AuthComponent {
     this.authService.signUp(email, password).subscribe(user => {
       console.log('signUp successful', email);
       this.isLoading = false;
+      this.errorMessage = '';
     }, error => {
       this.isLoading = false;
-      console.error('signUp failed', error);
+      const msg  = this.parseErrorMessage(error);
+      console.error('signUp failed', msg);
+      this.errorMessage = msg;
     });
+  }
+
+  private parseErrorMessage(error: any): string {
+    const errorMessage = error?.error?.error?.message;
+    if (errorMessage) {
+      return Object.keys(ErrorMessageEnum).includes(errorMessage)
+        ? ErrorMessageEnum[errorMessage] :
+        `Unknown error: ${errorMessage}`;
+    }
+    return error;
   }
 }

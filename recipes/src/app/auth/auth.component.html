@@ -31,5 +31,9 @@
         <a (click)="toggleMode()" type="button">Do you want to {{ !isLogin ? 'log in' : 'sign up'}}?</a>
       </div>
     </form>
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      <p>{{ errorMessage }}</p>
+    </div>
+
   </div>
 </div>
