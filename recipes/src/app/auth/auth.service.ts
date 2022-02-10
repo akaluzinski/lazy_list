@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { appId, signUpUrl } from '../config';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ErrorMessageEnum } from './error-message.enum';
 
 export interface User {
   idToken: string;
@@ -27,6 +29,14 @@ export class AuthService {
       email,
       password,
       returnSecureToken: true
-    });
+    }).pipe(catchError(error => {
+      const errorMessage = error?.error?.error?.message;
+      if (errorMessage) {
+        return throwError(Object.keys(ErrorMessageEnum).includes(errorMessage)
+          ? ErrorMessageEnum[errorMessage] :
+          `Unknown error: ${errorMessage}`);
+      }
+      return throwError(error);
+    }));
   }
 }
