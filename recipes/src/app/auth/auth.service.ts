@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { key, signInUrl, signUpUrl } from '../config';
-import { Observable, OperatorFunction, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, OperatorFunction, Subject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { ErrorMessageEnum } from './error-message.enum';
 import { AuthenticationCommand } from './authentication-command.enum';
+import { User } from './user.model';
 
-export interface User {
+export interface AuthResponse {
   idToken: string;
   email: string;
   refreshToken: string;
@@ -20,10 +21,18 @@ export interface User {
 })
 export class AuthService {
 
+  user = new Subject<User>();
+
   constructor(private readonly http: HttpClient) { }
 
-  emailAuthentication(email: string, password: string, command: AuthenticationCommand): Observable<User> {
-    this.validateKey();
+  static validateAPIKey(): void {
+    if (key.length === 0) {
+      throw Error('Provide api key');
+    }
+  }
+
+  emailAuthentication(email: string, password: string, command: AuthenticationCommand): Observable<AuthResponse> {
+    AuthService.validateAPIKey();
 
     let url = '';
     switch (command) {
@@ -38,9 +47,8 @@ export class AuthService {
     return this.fetchAuthenticationRequest(email, password, url);
   }
 
-
-  private fetchAuthenticationRequest(email: string, password: string, url: string): Observable<User> {
-    return this.http.post<User>(url, {
+  private fetchAuthenticationRequest(email: string, password: string, url: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(url, {
       email,
       password,
       returnSecureToken: true
@@ -48,7 +56,15 @@ export class AuthService {
       params: {
         key
       }
-    }).pipe(this.handleError);
+    }).pipe(
+      this.handleError,
+      tap(userData => this.handleEmailAuthentication(userData.idToken, userData.email, userData.idToken, +userData.expiresIn))
+    );
+  }
+
+  private handleEmailAuthentication(idToken: string, email: string, token: string, expiresIn: number): void {
+    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+    this.user.next(new User(idToken, email, token, expirationDate));
   }
 
   private get handleError(): OperatorFunction<never, never> {
@@ -61,11 +77,5 @@ export class AuthService {
       }
       return throwError(error);
     });
-  }
-
-  private validateKey(): void {
-    if (key.length === 0) {
-      throw Error('Provide api key');
-    }
   }
 }
