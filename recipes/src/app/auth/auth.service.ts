@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { appId, signUpUrl } from '../config';
-import { Observable, throwError } from 'rxjs';
+import { key, signInUrl, signUpUrl } from '../config';
+import { Observable, OperatorFunction, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ErrorMessageEnum } from './error-message.enum';
+import { AuthenticationCommand } from './authentication-command.enum';
 
 export interface User {
   idToken: string;
@@ -11,6 +12,7 @@ export interface User {
   refreshToken: string;
   expiresIn: string;
   localId: string;
+  registered?: boolean;
 }
 
 @Injectable({
@@ -20,16 +22,37 @@ export class AuthService {
 
   constructor(private readonly http: HttpClient) { }
 
-  signUp(email: string, password: string): Observable<User> {
-    if (appId.length === 0) {
-      throw Error('Provide api key');
+  emailAuthentication(email: string, password: string, command: AuthenticationCommand): Observable<User> {
+    this.validateKey();
+
+    let url = '';
+    switch (command) {
+      case AuthenticationCommand.EMAIL_SIGN_UP:
+        url = signUpUrl;
+        break;
+      case AuthenticationCommand.EMAIL_SIGN_IN:
+        url = signInUrl;
+        break;
     }
 
-    return this.http.post<User>(`${signUpUrl}${appId}`, {
+    return this.fetchAuthenticationRequest(email, password, url);
+  }
+
+
+  private fetchAuthenticationRequest(email: string, password: string, url: string): Observable<User> {
+    return this.http.post<User>(url, {
       email,
       password,
       returnSecureToken: true
-    }).pipe(catchError(error => {
+    }, {
+      params: {
+        key
+      }
+    }).pipe(this.handleError);
+  }
+
+  private get handleError(): OperatorFunction<never, never> {
+    return catchError(error => {
       const errorMessage = error?.error?.error?.message;
       if (errorMessage) {
         return throwError(Object.keys(ErrorMessageEnum).includes(errorMessage)
@@ -37,6 +60,12 @@ export class AuthService {
           `Unknown error: ${errorMessage}`);
       }
       return throwError(error);
-    }));
+    });
+  }
+
+  private validateKey(): void {
+    if (key.length === 0) {
+      throw Error('Provide api key');
+    }
   }
 }

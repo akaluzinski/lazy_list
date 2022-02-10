@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from './auth.service';
+import { AuthenticationCommand } from './authentication-command.enum';
 
 @Component({
   selector: 'app-auth',
@@ -26,23 +27,23 @@ export class AuthComponent {
     }
     this.isLoading = true;
 
-    if (this.isLogin) {
-      // todo
-    } else {
-      this.onSignUp(form);
-    }
+    const action = this.isLogin ?
+      AuthenticationCommand.EMAIL_SIGN_IN :
+      AuthenticationCommand.EMAIL_SIGN_UP;
+
+    this.onEmailAuthentication(form, action);
     form.reset();
   }
 
-  private onSignUp(form: NgForm): void {
+  private onEmailAuthentication(form: NgForm, command: AuthenticationCommand): void {
     const { email, password } = form.value;
-    this.authService.signUp(email, password).subscribe(user => {
-      console.log('signUp successful', email);
+    this.authService.emailAuthentication(email, password, command).subscribe(user => {
+      console.log(command, ' successful', email);
       this.isLoading = false;
       this.errorMessage = '';
     }, error => {
       this.isLoading = false;
-      console.error('signUp failed', error);
+      console.error(command, ' failed', error);
       this.errorMessage = error;
     });
   }
