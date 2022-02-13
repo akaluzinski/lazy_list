@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { key, signInUrl, signUpUrl } from '../config';
-import { Observable, OperatorFunction, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, OperatorFunction, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ErrorMessageEnum } from './error-message.enum';
 import { AuthenticationCommand } from './authentication-command.enum';
@@ -21,7 +21,7 @@ export interface AuthResponse {
 })
 export class AuthService {
 
-  user = new Subject<User>();
+  user = new BehaviorSubject<User>(null);
 
   constructor(private readonly http: HttpClient) { }
 
