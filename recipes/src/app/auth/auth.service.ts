@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { key, signInUrl, signUpUrl } from '../config';
-import { BehaviorSubject, Observable, OperatorFunction, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, OperatorFunction, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ErrorMessageEnum } from './error-message.enum';
 import { AuthenticationCommand } from './authentication-command.enum';
 import { User } from './user.model';
+import { Router } from '@angular/router';
 
 export interface AuthResponse {
   idToken: string;
@@ -23,7 +24,8 @@ export class AuthService {
 
   user = new BehaviorSubject<User>(null);
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient,
+              private readonly router: Router) { }
 
   static validateAPIKey(): void {
     if (key.length === 0) {
@@ -60,6 +62,11 @@ export class AuthService {
       this.handleError,
       tap(userData => this.handleEmailAuthentication(userData.idToken, userData.email, userData.idToken, +userData.expiresIn))
     );
+  }
+
+  logout(): void {
+    this.user.next(null);
+    this.router.navigate(['/auth']);
   }
 
   private handleEmailAuthentication(idToken: string, email: string, token: string, expiresIn: number): void {

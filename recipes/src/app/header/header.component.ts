@@ -38,4 +38,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   loadData(): void {
     this.storageService.loadRecipes().subscribe();
   }
+
+  logout(): void {
+    this.authService.logout();
+  }
 }
