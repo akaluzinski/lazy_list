@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { AuthenticationCommand } from './authentication-command.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -14,7 +15,8 @@ export class AuthComponent {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private readonly authService: AuthService) {
+  constructor(private readonly authService: AuthService,
+              private readonly router: Router) {
   }
 
   toggleMode(): void {
@@ -41,6 +43,7 @@ export class AuthComponent {
       console.log(command, ' successful', email);
       this.isLoading = false;
       this.errorMessage = '';
+      this.router.navigate(['/recipes']);
     }, error => {
       this.isLoading = false;
       console.error(command, ' failed', error);
