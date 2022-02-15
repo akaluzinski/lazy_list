@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
-
-export enum MenuItem {
-  Recipes = 'Recipes',
-  ShoppingList = 'ShoppingList',
-}
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  title = 'recipes';
+export class AppComponent implements OnInit {
 
-  menuItem = MenuItem;
+
+  constructor(private readonly authService: AuthService) {
+  }
+
+  ngOnInit(): void {
+    this.authService.restoreUser();
+  }
 }

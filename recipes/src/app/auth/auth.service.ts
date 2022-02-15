@@ -8,6 +8,8 @@ import { AuthenticationCommand } from './authentication-command.enum';
 import { User } from './user.model';
 import { Router } from '@angular/router';
 
+const localStorageUserDataKey = 'recipeUser';
+
 export interface AuthResponse {
   idToken: string;
   email: string;
@@ -71,7 +73,25 @@ export class AuthService {
 
   private handleEmailAuthentication(idToken: string, email: string, token: string, expiresIn: number): void {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    this.user.next(new User(idToken, email, token, expirationDate));
+    const user = new User(idToken, email, token, expirationDate);
+    this.user.next(user);
+    localStorage.setItem(localStorageUserDataKey, JSON.stringify(user));
+  }
+
+  restoreUser(): void {
+    const user: {
+      id: string,
+      email: string,
+      authToken: string,
+      authTokenExpirationDate: Date
+    } = JSON.parse(localStorage.getItem(localStorageUserDataKey));
+    if (!user) {
+      return;
+    }
+    const restoredUser = new User(user.id, user.email, user.authToken, new Date(user.authTokenExpirationDate));
+    if (restoredUser.token) {
+      this.user.next(restoredUser);
+    }
   }
 
   private get handleError(): OperatorFunction<never, never> {
