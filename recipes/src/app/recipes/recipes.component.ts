@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Recipe } from './recipe-list/recipe.model';
 import { RecipeService } from './recipe.service';
+import { StorageService } from '../shared/storage.service';
 
 @Component({
   selector: 'app-recipes',
@@ -13,9 +14,13 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
   selectedRecipe: Recipe;
 
-  constructor(private recipeService: RecipeService) {}
+  constructor(private readonly recipeService: RecipeService,
+              private readonly storageService: StorageService) {}
 
   ngOnInit(): void {
+
+    this.storageService.loadRecipes().subscribe();
+
     this.recipeSelectedSubscription =
       this.recipeService.recipeSelected.subscribe((recipe: Recipe) => {
         this.selectedRecipe = recipe;
