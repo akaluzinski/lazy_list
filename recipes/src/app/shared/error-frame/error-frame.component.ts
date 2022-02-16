@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-error-frame',
@@ -7,6 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class ErrorFrameComponent {
 
+  @Input()
   errorMessage = '';
 
 }
