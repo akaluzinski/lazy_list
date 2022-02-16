@@ -22,7 +22,7 @@ export class StorageService {
 
   // TODO load photos from drive
   // TODO integrate with listonic
-  // TODO autosave, autoload
+  // TODO autosave
 
   loadRecipes(): Observable<Recipe[]> {
     return this.fetchRecipes().pipe(tap(recipes => this.recipeService.setRecipes(recipes)));
