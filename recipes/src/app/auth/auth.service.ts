@@ -24,7 +24,7 @@ export interface AuthResponse {
 })
 export class AuthService {
 
-  private tokenExpirationHandler: number;
+  private tokenExpirationHandler: any;
 
   user = new BehaviorSubject<User>(null);
 
