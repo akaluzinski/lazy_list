@@ -54,13 +54,14 @@ export class AuthService {
   }
 
   private fetchAuthenticationRequest(email: string, password: string, url: string): Observable<AuthResponse> {
+    const requestKey = atob(key);
     return this.http.post<AuthResponse>(url, {
       email,
       password,
       returnSecureToken: true
     }, {
       params: {
-        key
+        key: requestKey
       }
     }).pipe(
       this.handleError,

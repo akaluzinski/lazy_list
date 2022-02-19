@@ -6,5 +6,5 @@ const accountsApiUrl = 'https://identitytoolkit.googleapis.com/v1/accounts';
 export const signUpUrl = `${accountsApiUrl}:signUp`;
 export const signInUrl = `${accountsApiUrl}:signInWithPassword`;
 
-export const key = '';
+export const key = 'QUl6YVN5QVVCWElRSlJIUU1GaEFhSnZwRjBQY2Fsc0pLd19zbDVR';
 
