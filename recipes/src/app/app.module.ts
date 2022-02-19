@@ -16,7 +16,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { ErrorFrameComponent } from './shared/error-frame/error-frame.component';
 import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
-import { RecipesModule } from './recipes/recipe.modules';
+import { RecipesModule } from './recipes/recipe.module';
 
 @NgModule({
   declarations: [
