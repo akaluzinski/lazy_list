@@ -45,7 +45,6 @@ export class AuthComponent {
   private onEmailAuthentication(form: NgForm, command: AuthenticationCommand): void {
     const { email, password } = form.value;
     this.authService.emailAuthentication(email, password, command).subscribe(() => {
-      console.log(command, ' successful', email);
       this.isLoading = false;
       this.router.navigate(['/recipes']);
     }, error => {

@@ -31,14 +31,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    this.storageService.storeRecipes().subscribe(response => console.log('Save recipes'));
+    this.storageService.storeRecipes().subscribe();
   }
 
   loadData(): void {
     this.storageService.loadRecipes().subscribe();
   }
 
-  logout(): void {
-    this.authService.logout();
+  logout(): Promise<boolean> {
+    return this.authService.logout();
   }
 }

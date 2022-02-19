@@ -69,11 +69,11 @@ export class AuthService {
     );
   }
 
-  logout(): void {
+  logout(): Promise<boolean> {
     this.user.next(null);
     localStorage.removeItem(localStorageUserDataKey);
     this.clearAutoLogoutHandler();
-    this.router.navigate(['/auth']);
+    return this.router.navigate(['/auth']);
   }
 
   private setAutoLogout(expirationDuration: number): void {
