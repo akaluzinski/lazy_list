@@ -29,9 +29,6 @@ const components = [
     RouterModule,
     RecipeRoutingModule,
     ReactiveFormsModule
-  ],
-  exports: [
-    ...components
   ]
 })
 export class RecipesModule { }
