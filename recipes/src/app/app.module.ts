@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RecipesModule } from './recipes/recipe.module';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
@@ -19,7 +18,6 @@ import { AuthModule } from './auth/auth.module';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     SharedModule,
     HttpClientModule,
     RecipesModule,
