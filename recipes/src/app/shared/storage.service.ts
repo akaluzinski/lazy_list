@@ -20,6 +20,7 @@ export class StorageService {
     return this.http.put(this.path, this.recipeService.getRecipes());
   }
 
+  // TODO store shopping list on server
   // TODO load photos from drive
   // TODO integrate with listonic
   // TODO autosave

@@ -8,10 +8,7 @@ export class ShoppingListService {
   ingredientsChanged = new Subject<Ingredient[]>();
   startedEditing = new Subject<number>();
 
-  private ingredients = [
-    new Ingredient('Beans', 4),
-    new Ingredient('Tomatoes', 10),
-  ];
+  private ingredients = [];
 
   getIngredients(): Ingredient[] {
     return [...this.ingredients];
