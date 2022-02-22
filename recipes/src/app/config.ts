@@ -1,4 +1,6 @@
-export const appName = 'lazylist-58afc-default-rtdb.europe-west1';
+import { environment } from '../environments/environment';
+
+export const appName = environment.firebaseAppName;
 
 export const appUrl = `https://${appName}.firebasedatabase.app`;
 const accountsApiUrl = 'https://identitytoolkit.googleapis.com/v1/accounts';
@@ -6,5 +8,5 @@ const accountsApiUrl = 'https://identitytoolkit.googleapis.com/v1/accounts';
 export const signUpUrl = `${accountsApiUrl}:signUp`;
 export const signInUrl = `${accountsApiUrl}:signInWithPassword`;
 
-export const key = 'QUl6YVN5QVVCWElRSlJIUU1GaEFhSnZwRjBQY2Fsc0pLd19zbDVR';
+export const key = environment.firebaseAPIKey;
 
