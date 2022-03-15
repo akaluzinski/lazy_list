@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
 import { AuthModule } from './auth/auth.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routesConfig = { preloadingStrategy: PreloadAllModules };
 
@@ -28,6 +29,7 @@ const routes: Routes = [
     HttpClientModule,
     CoreModule,
     AuthModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(routes, routesConfig)
   ],
   bootstrap: [AppComponent],
